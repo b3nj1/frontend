@@ -22,6 +22,7 @@
   "author": "Paulus Schoutsen <Paulus@PaulusSchoutsen.nl> (http://paulusschoutsen.nl)",
   "license": "Apache-2.0",
   "dependencies": {
+    "@braintree/sanitize-url": "^5.0.0",
     "@formatjs/intl-getcanonicallocales": "^1.4.6",
     "@formatjs/intl-pluralrules": "^3.4.10",
     "@fullcalendar/common": "5.1.0",
@@ -120,7 +121,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "roboto-fontface": "^0.10.0",
     "sortablejs": "^1.10.2",
-    "superstruct": "^0.10.12",
+    "superstruct": "^0.10.13",
     "tinykeys": "^1.1.1",
     "unfetch": "^4.1.0",
     "vis-data": "^7.1.1",

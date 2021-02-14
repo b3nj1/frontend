@@ -1,9 +1,9 @@
+import "../../../components/ha-markdown";
 import "@material/mwc-button";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "@polymer/paper-input/paper-input";
 import type { PaperInputElement } from "@polymer/paper-input/paper-input";
 import {
-  css,
   CSSResult,
   customElement,
   html,
@@ -39,17 +39,21 @@ class DialogImportBlueprint extends LitElement {
 
   @internalProperty() private _result?: BlueprintImportResult;
 
+  @internalProperty() private _url?: string;
+
   @query("#input") private _input?: PaperInputElement;
 
   public showDialog(params): void {
     this._params = params;
     this._error = undefined;
+    this._url = this._params.url;
   }
 
   public closeDialog(): void {
     this._error = undefined;
     this._result = undefined;
     this._params = undefined;
+    this._url = undefined;
     fireEvent(this, "dialog-closed", { dialog: this.localName });
   }
 
@@ -74,9 +78,10 @@ class DialogImportBlueprint extends LitElement {
                   this._result.blueprint.metadata.domain
                 )}
                 <br />
-                <p class="pre-line">
-                  ${this._result.blueprint.metadata.description}
-                </p>
+                <ha-markdown
+                  breaks
+                  .content=${this._result.blueprint.metadata.description}
+                ></ha-markdown>
                 ${this._result.validation_errors
                   ? html`
                       <p class="error">
@@ -122,6 +127,7 @@ class DialogImportBlueprint extends LitElement {
                   .label=${this.hass.localize(
                     "ui.panel.config.blueprint.add.url"
                   )}
+                  .value=${this._url}
                   dialogInitialFocus
                 ></paper-input>`}
         </div>
@@ -170,6 +176,7 @@ class DialogImportBlueprint extends LitElement {
   }
 
   private async _import() {
+    this._url = undefined;
     this._importing = true;
     this._error = undefined;
     try {
@@ -211,15 +218,8 @@ class DialogImportBlueprint extends LitElement {
     }
   }
 
-  static get styles(): CSSResult[] {
-    return [
-      haStyleDialog,
-      css`
-        .pre-line {
-          white-space: pre-line;
-        }
-      `,
-    ];
+  static get styles(): CSSResult {
+    return haStyleDialog;
   }
 }
 
